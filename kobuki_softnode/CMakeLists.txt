@@ -14,9 +14,8 @@ find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(kobuki_ros_interfaces REQUIRED)
-find_package(geometry_msgs REQUIRED)
+find_package(tf2 REQUIRED)
 find_package(rclcpp REQUIRED)
-# roscpp nodelet tf
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
