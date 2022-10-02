@@ -4,41 +4,43 @@
 namespace kobuki
 {
   FakeKobukiRos::FakeKobukiRos(std::string& node_name)
+  : Node(node_name), count_(0)
   {
     this->name = node_name;
+    //timer_ = this->create_wall_timer(
+    //  500ms, std::bind(&FakeKobukiRos::timer_callback, this));
+
+    kobuki = std::make_shared<FakeKobuki>();
+    rclcpp::spin(kobuki);
+
+    // initialize publishers
+    advertiseTopics();
+
+    // initialize subscribers
+    subscribeTopics();
+
+    publishVersionInfoOnce(); 
+
+    this->prev_update_time = ros::Time::now();   // TODO
   }
 
   FakeKobukiRos::~FakeKobukiRos()
   {
   }
 
-  bool FakeKobukiRos::init(ros::NodeHandle& nh)
-  {
-    kobuki.init(nh);
-
-    // initialize publishers
-    advertiseTopics(nh);
-
-    // initialize subscribers
-    subscribeTopics(nh);
-
-    publishVersionInfoOnce(); 
-
-    this->prev_update_time = ros::Time::now();
-    return true;
-  }
-
-
-  void FakeKobukiRos::advertiseTopics(ros::NodeHandle& nh) 
+  void FakeKobukiRos::advertiseTopics() 
   {
     // turtlebot required
-    this->publisher["joint_states"]  = nh.advertise<sensor_msgs::JointState>("joint_states",100);
+    this->publish_joint_states_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 100);
+    //nh.advertise<sensor_msgs::JointState>("joint_states",100);
 
     // kobuki esoterics
-    this->publisher["version_info"] = nh.advertise<kobuki_msgs::VersionInfo>("version_info",100,true);
+    this->publish_version_info_ = this->create_publisher<kobuki_msgs::msg::VersionInfo>("version_info", 100, true);
+    //this->publisher["version_info"] = nh.advertise<kobuki_msgs::VersionInfo>("version_info",100,true);
 
     // odometry
-    this->publisher["odom"] = nh.advertise<nav_msgs::Odometry>("odom",100);
+    this->publish_odom_ = this->create_publisher<kobuki_msgs::msg::VersionInfo>("odom", 100);
+    //this->publisher["odom"] = nh.advertise<nav_msgs::Odometry>("odom",100);
 
 
     /*
@@ -59,7 +61,7 @@ namespace kobuki
     */
   }
 
-  void FakeKobukiRos::subscribeTopics(ros::NodeHandle& nh)
+  void FakeKobukiRos::subscribeTopics()
   {
     std::string cmd = "commands/";
     this->subscriber["velocity"] = nh.subscribe(cmd + "velocity", 10, &FakeKobukiRos::subscribeVelocityCommand, this);

@@ -32,6 +32,8 @@
 #ifndef _FAKE_KOBUKI_NODE_H_
 #define _FAKE_KOBUKI_NODE_H_
 
+#include <chrono>
+
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <tf2_ros/transform_broadcaster.h>
@@ -68,6 +70,7 @@ namespace kobuki
       bool update();
 
     private:
+      //void timer_callback();
       void advertiseTopics();
       void subscribeTopics();
       void publishVersionInfoOnce();
@@ -85,10 +88,15 @@ namespace kobuki
       //////////////////////////
       std::string name;
       ros::Time last_cmd_vel_time;
-      ros::Time prev_update_time;
+      ros::Time prev_update_time;     // TODO
+      //rclcpp::TimerBase::SharedPtr timer_;
+      //size_t count_;
 
       // version_info, joint_states
-      std::map<std::string,ros::Publisher> publisher;
+      //std::map<std::string,rclcpp::Publisher> publisher;
+      rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr publish_joint_states_;
+      rclcpp::Publisher<kobuki_msgs::msg::VersionInfo>::SharedPtr publish_version_info_;
+      rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publish_odom_;
       // button, bumper, cliff, wheel_drop, power_system, digital_input, robot_state
       std::map<std::string,ros::Publisher> event_publisher;
       // sensor_core, dock_ir, imu_data
@@ -99,7 +107,7 @@ namespace kobuki
       // command subscribers
       std::map<std::string,ros::Subscriber> subscriber;
 
-      FakeKobuki kobuki;
+      std::shared_ptr<FakeKobuki> kobuki;
 
   };
 }
