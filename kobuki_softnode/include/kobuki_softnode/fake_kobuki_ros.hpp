@@ -33,14 +33,14 @@
 #define _FAKE_KOBUKI_NODE_H_
 
 #include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/msg/twist.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 //#include <nav_msgs/Odometry.h>
 //#include <geometry_msgs/TransformStamped.h>
 //#include <sensor_msgs/JointState.h>
 
 // place holder for future support
-#include <sensor_msgs/Imu.h>
+#include <sensor_msgs/msg/imu.h>
 #include <kobuki_ros_interfaces/msg/button_event.hpp>
 #include <kobuki_ros_interfaces/msg/bumper_event.hpp>
 #include <kobuki_ros_interfaces/msg/cliff_event.hpp>
@@ -68,17 +68,17 @@ namespace kobuki
       bool update();
 
     private:
-      void advertiseTopics(ros::NodeHandle& nh);
-      void subscribeTopics(ros::NodeHandle& nh);
+      void advertiseTopics();
+      void subscribeTopics();
       void publishVersionInfoOnce();
 
       // subscriber callbacks
-      void subscribeVelocityCommand(const geometry_msgs::TwistConstPtr msg);
-      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::MotorPowerConstPtr msg);
+      void subscribeVelocityCommand(const geometry_msgs::msg::TwistConstPtr msg);
+      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::msg::MotorPowerConstPtr msg);
 
       void updateJoint(unsigned int index,double& w,ros::Duration step_time);
       void updateOdometry(double w_left,double w_right, ros::Duration step_time);
-      void updateTF(geometry_msgs::TransformStamped& odom_tf);
+      void updateTF(geometry_msgs::msg::TransformStamped& odom_tf);
 
       ///////////////////////////
       // Variables 

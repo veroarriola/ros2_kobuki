@@ -1,5 +1,5 @@
-#include <kobuki_softnode/fake_kobuki_ros.h>
-#include <tf/transform_datatypes.h>
+#include <kobuki_softnode/fake_kobuki_ros.hpp>
+#include <tf2/transform_datatypes.h>
 
 namespace kobuki
 {
@@ -187,3 +187,11 @@ namespace kobuki
     return true;
   }
 } 
+
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<FakeKobukiRos>("mobile_base"));
+  rclcpp::shutdown();
+  return 0;
+}

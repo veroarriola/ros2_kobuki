@@ -15,7 +15,10 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(kobuki_ros_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(rclcpp REQUIRED)
+
+include_directories(include)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,12 +33,33 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
-install(TARGETS
-  kobuki_softnode
+
+# add_library(kobuki_softnode SHARED
+#   src/fake_kobuki.cpp
+#   src/fake_kobuki_ros.cpp
+# )
+# rclcpp_components_register_nodes(kobuki_softnode "composition::FakeKobuki")
+# rclcpp_components_register_nodes(kobuki_softnode "composition::FakeKobukiRos")
+
+add_executable(kobuki_softnode
+  src/fake_kobuki.cpp
+  src/fake_kobuki_ros.cpp
+)
+
+ament_target_dependencies(kobuki_softnode
+  "rclcpp"
+  "sensor_msgs"
+  "geometry_msgs"
+  "nav_msgs"
+  "tf2_ros"
+  "kobuki_ros_interfaces"
+  "tf2"
+)
+
+install(TARGETS kobuki_softnode
   DESTINATION lib/${PROJECT_NAME}
 )
-install(DIRECTORY
-  launch
+install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}/
 )
 install(DIRECTORY include/${PROJECT_NAME}

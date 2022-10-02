@@ -33,10 +33,11 @@
 #define _FAKE_KOBUKI_H_
 
 #include <rclcpp/rclcpp.hpp>
-#include <nav_msgs/Odometry.h>
-#include <geometry_msgs/TransformStamped.h>
-#include <sensor_msgs/JointState.h>
-#include <kobuki_ros_interfaces/VersionInfo.h>
+#include <string>
+#include <nav_msgs/msg/odometry.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
+#include <kobuki_ros_interfaces/msg/version_info.hpp>
 
 // place holder for future support
 //#include <sensor_msgs/Imu.h>
@@ -68,21 +69,24 @@ namespace kobuki
       FakeKobuki();
 
       // variables
-      kobuki_ros_interfaces::VersionInfo        versioninfo;
+      kobuki_ros_interfaces::msg::VersionInfo        versioninfo;
 
-      sensor_msgs::JointState         joint_states;
-      nav_msgs::Odometry              odom;
+      sensor_msgs::msg::JointState                   joint_states;
+      nav_msgs::msg::Odometry                        odom;
       float odom_pose[3];
       float odom_vel[3];
       double pose_cov[36];
 
       std::string wheel_joint_name[2];
+      //const rclcpp::ParameterValue wheel_joint_name[2];
+      
       float wheel_speed_cmd[2];
       float wheel_separation;
       float wheel_diameter;
 
       bool motor_enabled;
-      double cmd_vel_timeout;
+      const double cmd_vel_timeout;
+      //const rclcpp::ParameterValue cmd_vel_timeout;
 
       // events
 //      kobuki_msgs::BumperEvent        bumper_event;
