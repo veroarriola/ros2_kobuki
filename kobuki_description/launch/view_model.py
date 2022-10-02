@@ -24,14 +24,17 @@ def generate_launch_description():
             executable='robot_state_publisher',
             output='screen',
             parameters=[{
-                'robot_description': robot_desc
+                'robot_description': robot_desc,
+                'publish_frequency': 5.0,
             }]
-            #arguments=[path_to_urdf,]
         ),
         Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
-            name='joint_state_publisher'
+            name='joint_state_publisher',
+            parameters=[{
+                'use_gui': True,
+            }]
         ),
         Node(
             package='rviz2',
