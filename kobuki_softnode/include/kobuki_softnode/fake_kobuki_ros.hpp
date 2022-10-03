@@ -33,9 +33,14 @@
 #define _FAKE_KOBUKI_NODE_H_
 
 #include <chrono>
+#include <memory>
+//#include <time.hpp>
+//#include <duration.hpp>
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 //#include <nav_msgs/Odometry.h>
 //#include <geometry_msgs/TransformStamped.h>
@@ -59,12 +64,14 @@
 #include <kobuki_ros_interfaces/msg/version_info.hpp>
 #include <kobuki_ros_interfaces/msg/wheel_drop_event.hpp>
 
+#include "fake_kobuki.hpp"
+
 namespace kobuki
 {
   class FakeKobukiRos : public rclcpp::Node
   {
     public:
-      FakeKobukiRos(std::string& node_name);
+      FakeKobukiRos(const std::string &node_name);
       ~FakeKobukiRos();
 
       bool update();
@@ -76,36 +83,39 @@ namespace kobuki
       void publishVersionInfoOnce();
 
       // subscriber callbacks
-      void subscribeVelocityCommand(const geometry_msgs::msg::TwistConstPtr msg);
-      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::msg::MotorPowerConstPtr msg);
+      void subscribeVelocityCommand(const geometry_msgs::msg::Twist & msg);
+      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::msg::MotorPower & msg) const;
 
-      void updateJoint(unsigned int index,double& w,ros::Duration step_time);
-      void updateOdometry(double w_left,double w_right, ros::Duration step_time);
+      void updateJoint(unsigned int index,double& w, rclcpp::Duration step_time);
+      void updateOdometry(double w_left,double w_right, rclcpp::Duration step_time);
       void updateTF(geometry_msgs::msg::TransformStamped& odom_tf);
 
       ///////////////////////////
       // Variables 
-      //////////////////////////
-      std::string name;
-      ros::Time last_cmd_vel_time;
-      ros::Time prev_update_time;     // TODO
+      ///////////////////////////
+      const std::string &name;
+      rclcpp::Time last_cmd_vel_time;
+      rclcpp::Time prev_update_time;     // TODO
       //rclcpp::TimerBase::SharedPtr timer_;
       //size_t count_;
 
       // version_info, joint_states
       //std::map<std::string,rclcpp::Publisher> publisher;
       rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr publish_joint_states_;
-      rclcpp::Publisher<kobuki_msgs::msg::VersionInfo>::SharedPtr publish_version_info_;
+      rclcpp::Publisher<kobuki_ros_interfaces::msg::VersionInfo>::SharedPtr publish_version_info_;
       rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publish_odom_;
       // button, bumper, cliff, wheel_drop, power_system, digital_input, robot_state
-      std::map<std::string,ros::Publisher> event_publisher;
+      //std::map<std::string,ros::Publisher> event_publisher;
       // sensor_core, dock_ir, imu_data
-      std::map<std::string,ros::Publisher> sensor_publisher;
+      //std::map<std::string,ros::Publisher> sensor_publisher;
       // no debug publisher
-      tf::TransformBroadcaster        tf_broadcaster;
+      //tf::TransformBroadcaster        tf_broadcaster;
+      tf2_ros::TransformBroadcaster        tf2_broadcaster;
 
       // command subscribers
-      std::map<std::string,ros::Subscriber> subscriber;
+      //std::map<std::string,ros::Subscriber> subscriber;
+      rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr subscription_velocity_;
+      rclcpp::Subscription<kobuki_ros_interfaces::msg::MotorPower>::SharedPtr subscription_motor_power_;
 
       std::shared_ptr<FakeKobuki> kobuki;
 

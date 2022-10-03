@@ -15,6 +15,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(kobuki_ros_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(rclcpp REQUIRED)
 
@@ -54,6 +55,7 @@ ament_target_dependencies(kobuki_softnode
   "tf2_ros"
   "kobuki_ros_interfaces"
   "tf2"
+  "tf2_geometry_msgs"
 )
 
 install(TARGETS kobuki_softnode

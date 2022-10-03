@@ -85,7 +85,7 @@ namespace kobuki
       float wheel_diameter;
 
       bool motor_enabled;
-      const double cmd_vel_timeout;
+      double cmd_vel_timeout;
       //const rclcpp::ParameterValue cmd_vel_timeout;
 
       // events

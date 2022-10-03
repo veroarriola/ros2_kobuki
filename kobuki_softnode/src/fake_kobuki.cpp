@@ -2,7 +2,7 @@
 
 namespace kobuki
 {
-  FakeKobuki() : Node()
+  FakeKobuki::FakeKobuki() : Node("fake_mobile_base")
   {
     this->wheel_speed_cmd[LEFT] = 0.0;
     this->wheel_speed_cmd[RIGHT] = 0.0;
@@ -42,8 +42,8 @@ namespace kobuki
     this->joint_states.effort.resize(2,0.0);
 
     // odometry
-    this->declare_parameter("odom_frame",std::string("odom"),this->odom.header.frame_id);
-    this->declare_parameter("base_frame",std::string("base_footprint"),this->odom.child_frame_id);
+    this->odom.header.frame_id = this->declare_parameter<std::string>("odom_frame",std::string("odom"));
+    this->odom.child_frame_id = this->declare_parameter<std::string>("base_frame",std::string("base_footprint"));
     //nh.param("odom_frame",this->odom.header.frame_id,std::string("odom"));
     //nh.param("base_frame",this->odom.child_frame_id,std::string("base_footprint"));
 

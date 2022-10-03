@@ -15,6 +15,14 @@ def generate_launch_description():
 
     return LaunchDescription([
         Node(
+            package='kobuki_softnode',
+            executable='kobuki_softnode'
+        ),
+        Node(
+            package='diagnostic_aggregator',
+            executable='diagnostic_aggregator',
+        ),
+        Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
             output='screen',
