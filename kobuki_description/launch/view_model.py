@@ -6,15 +6,15 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     rviz_config = os.path.join(
-            get_package_share_directory('kobuki_description'),
-            'rviz',
-            'model.rviz'
-        )
+        get_package_share_directory('kobuki_description'),
+        'rviz',
+        'model.rviz'
+    )
     path_to_urdf = os.path.join(
-            get_package_share_directory('kobuki_description'),
-            'urdf',
-            'kobuki_standalone.urdf'
-        )
+        get_package_share_directory('kobuki_description'),
+        'urdf',
+        'kobuki_standalone.urdf'
+    )
     with open(path_to_urdf, 'r') as f:
         robot_desc = f.read()
 

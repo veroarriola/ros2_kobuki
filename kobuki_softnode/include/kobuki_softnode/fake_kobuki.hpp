@@ -63,22 +63,21 @@ namespace kobuki
     RIGHT=1
   };
 
-  class FakeKobuki : public rclcpp::Node
+  class FakeKobuki
   {
     public:
-      FakeKobuki();
+      FakeKobuki(rclcpp::Node* p_node);
 
       // variables
-      kobuki_ros_interfaces::msg::VersionInfo        versioninfo;
+      kobuki_ros_interfaces::msg::VersionInfo    versioninfo;
 
-      sensor_msgs::msg::JointState                   joint_states;
-      nav_msgs::msg::Odometry                        odom;
+      sensor_msgs::msg::JointState               joint_states;
+      nav_msgs::msg::Odometry                    odom;
       float odom_pose[3];
       float odom_vel[3];
       double pose_cov[36];
 
       std::string wheel_joint_name[2];
-      //const rclcpp::ParameterValue wheel_joint_name[2];
       
       float wheel_speed_cmd[2];
       float wheel_separation;
@@ -86,7 +85,6 @@ namespace kobuki
 
       bool motor_enabled;
       double cmd_vel_timeout;
-      //const rclcpp::ParameterValue cmd_vel_timeout;
 
       // events
 //      kobuki_msgs::BumperEvent        bumper_event;

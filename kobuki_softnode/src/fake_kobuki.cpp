@@ -2,7 +2,7 @@
 
 namespace kobuki
 {
-  FakeKobuki::FakeKobuki() : Node("fake_mobile_base")
+  FakeKobuki::FakeKobuki(rclcpp::Node* p_node)
   {
     this->wheel_speed_cmd[LEFT] = 0.0;
     this->wheel_speed_cmd[RIGHT] = 0.0;
@@ -22,11 +22,11 @@ namespace kobuki
     this->wheel_diameter = 0.070;
 
     // joint states
-    this->wheel_joint_name[LEFT] = this->declare_parameter<std::string>("wheel_left_joint_name",
+    this->wheel_joint_name[LEFT] = p_node->declare_parameter<std::string>("wheel_left_joint_name",
                                                             std::string("wheel_left_joint"));
-    this->wheel_joint_name[RIGHT] = this->declare_parameter<std::string>("wheel_right_joint_name",
+    this->wheel_joint_name[RIGHT] = p_node->declare_parameter<std::string>("wheel_right_joint_name",
                                                             std::string("wheel_right_joint"));
-    this->cmd_vel_timeout = this->declare_parameter<double>("cmd_vel_timeout", 0.6);
+    this->cmd_vel_timeout = p_node->declare_parameter<double>("cmd_vel_timeout", 0.6);
     //nh.param("wheel_left_joint_name",this->wheel_joint_name[LEFT], std::string("wheel_left_joint"));
     //nh.param("wheel_right_joint_name",this->wheel_joint_name[RIGHT], std::string("wheel_right_joint"));
     //nh.param("cmd_vel_timeout",this->cmd_vel_timeout, 0.6);
@@ -42,8 +42,8 @@ namespace kobuki
     this->joint_states.effort.resize(2,0.0);
 
     // odometry
-    this->odom.header.frame_id = this->declare_parameter<std::string>("odom_frame",std::string("odom"));
-    this->odom.child_frame_id = this->declare_parameter<std::string>("base_frame",std::string("base_footprint"));
+    this->odom.header.frame_id = p_node->declare_parameter<std::string>("odom_frame",std::string("odom"));
+    this->odom.child_frame_id = p_node->declare_parameter<std::string>("base_frame",std::string("base_footprint"));
     //nh.param("odom_frame",this->odom.header.frame_id,std::string("odom"));
     //nh.param("base_frame",this->odom.child_frame_id,std::string("base_footprint"));
 

@@ -3,11 +3,28 @@ Paquetes para simular la kobuki
 
 ## Prerrequisitos
 
+Instalar los siguientes paquetes, que incluyen los nodos para publicar el estado de las articulaciones y otros auxiliares:
 ```
 $ sudo apt install ros-humble-urdf-tutorial
+$ sudo apt install ros-humble-diagnostic-aggregator
+```
+Para que el análisis de las descripciones de los robots sea correcto, agregar una línea al final del archivo ```.bashrc```:
+```
+$ echo 'export LC_NUMERIC="es_MX.UTF-8"' >> ~/.bashrc
 ```
 
+Para utilizar los macros de urdf:
+```
+$ sudo apt install ros-humble-xacro
+```
+
+Crear un espacio de trabajo:
+```
+$ mkdir -p ~/kobuki_ws/src
+```
 Dentro de un espacio de trabajo, clonar [kobuki_ros_interfaces](https://github.com/kobuki-base/kobuki_ros_interfaces) dentro de ```src```.
+
+**Terminal 0.1**
 
 Compilar con ```colcon build``` antes de clonar este repo.  Continuar en otra terminal.
 
@@ -15,12 +32,31 @@ Compilar con ```colcon build``` antes de clonar este repo.  Continuar en otra te
 
 Clonar este repo de modo que los directorios queden dentro de ```src``` y compilar con ```colcon```.
 
+**Terminal 0.2**
 ```
+$ cd ~/kobuki_ws/src/
 $ git clone <repo> .
+$ cd ..
+$ colcon build
 ```
 
 ## Ejecutar
 
+### Visualizar el modelo de la Kobuki en Rviz2
+
+**Terminal 1**
 ```
 $ ros2 launch kobuki_description view_model.py
+```
+
+
+### Mover a la kobuki virtual
+
+**Terminal 1**
+```
+$ ros2 launch kobuki_softnode full.launch.py
+```
+Terminal 2
+```
+$ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
 ```

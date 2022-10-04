@@ -74,7 +74,7 @@ namespace kobuki
       FakeKobukiRos(const std::string &node_name);
       ~FakeKobukiRos();
 
-      bool update();
+      void update();
 
     private:
       //void timer_callback();
@@ -84,7 +84,7 @@ namespace kobuki
 
       // subscriber callbacks
       void subscribeVelocityCommand(const geometry_msgs::msg::Twist & msg);
-      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::msg::MotorPower & msg) const;
+      void subscribeMotorPowerCommand(const kobuki_ros_interfaces::msg::MotorPower & msg);
 
       void updateJoint(unsigned int index,double& w, rclcpp::Duration step_time);
       void updateOdometry(double w_left,double w_right, rclcpp::Duration step_time);
@@ -93,11 +93,12 @@ namespace kobuki
       ///////////////////////////
       // Variables 
       ///////////////////////////
-      const std::string &name;
+      const std::string name;
       rclcpp::Time last_cmd_vel_time;
-      rclcpp::Time prev_update_time;     // TODO
-      //rclcpp::TimerBase::SharedPtr timer_;
-      //size_t count_;
+      rclcpp::Time prev_update_time;
+
+      rclcpp::TimerBase::SharedPtr timer_;
+      size_t count_;
 
       // version_info, joint_states
       //std::map<std::string,rclcpp::Publisher> publisher;
@@ -117,7 +118,7 @@ namespace kobuki
       rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr subscription_velocity_;
       rclcpp::Subscription<kobuki_ros_interfaces::msg::MotorPower>::SharedPtr subscription_motor_power_;
 
-      std::shared_ptr<FakeKobuki> kobuki;
+      FakeKobuki kobuki;
 
   };
 }

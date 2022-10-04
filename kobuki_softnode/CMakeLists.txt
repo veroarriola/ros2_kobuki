@@ -33,19 +33,70 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
 
-# add_library(kobuki_softnode SHARED
+
+##
+## fake_kobuki_component
+##
+# add_library(fake_kobuki_component SHARED
 #   src/fake_kobuki.cpp
+# )
+
+# target_compile_definitions(fake_kobuki_component
+#   PRIVATE "COMPOSITION_BUILDING_DLL"
+# )
+
+# ament_target_dependencies(fake_kobuki_component
+#   "rclcpp"
+#   "rclcpp_components"
+#   "std_msgs"
+# )
+
+# rclcpp_components_register_nodes(fake_kobuki_component
+#   "kobuki::FakeKobuki"
+# )
+
+# set(node_plugins "${node_plugins}kobuki::FakeKobuki;$<TARGET_FILE:fake_kobuki>\n")
+
+
+##
+## fake_kobuki_ros_component
+##
+# add_library(fake_kobuki_ros_component SHARED
 #   src/fake_kobuki_ros.cpp
 # )
-# rclcpp_components_register_nodes(kobuki_softnode "composition::FakeKobuki")
-# rclcpp_components_register_nodes(kobuki_softnode "composition::FakeKobukiRos")
+
+# target_compile_definitions(fake_kobuki_ros_component
+#   PRIVATE "COMPOSITION_BUILDING_DLL"
+# )
+
+# ament_target_dependencies(fake_kobuki_ros_component
+#   "rclcpp"
+#   "rclcpp_components"
+#   "std_msgs"
+# )
+
+# rclcpp_components_register_nodes(fake_kobuki_ros_component
+#   "kobuki::FakeKobuki"
+# )
+
+# set(node_plugins "${node_plugins}kobuki::FakeKobukiRos;$<TARGET_FILE:fake_kobuki_ros>\n")
+
+
+##
+## kobuki_softnode
+##
 
 add_executable(kobuki_softnode
+  #src/mobile_base_composition.cpp
   src/fake_kobuki.cpp
   src/fake_kobuki_ros.cpp
 )
+
+# target_link_libraries(kobuki_softnode
+#   fake_kobuki_component
+#   fake_kobuki_ros_component
+# )
 
 ament_target_dependencies(kobuki_softnode
   "rclcpp"
@@ -58,12 +109,31 @@ ament_target_dependencies(kobuki_softnode
   "tf2_geometry_msgs"
 )
 
-install(TARGETS kobuki_softnode
+
+# install(TARGETS
+#   fake_kobuki_component
+#   fake_kobuki_ros_component
+#   ARCHIVE DESTINATION lib
+#   LIBRARY DESTINATION lib
+#   RUNTIME DESTINATION bin
+# )
+install(TARGETS
+  kobuki_softnode
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}/
 )
+install(DIRECTORY
+  rviz
+  DESTINATION share/${PROJECT_NAME}/
+)
+install(DIRECTORY param
+  DESTINATION share/${PROJECT_NAME}/
+)
 install(DIRECTORY include/${PROJECT_NAME}
   DESTINATION include${PROJECT_NAME}/
 )
+
+
+ament_package()
