@@ -14,12 +14,12 @@ def generate_launch_description():
     with open(path_to_urdf, 'r') as f:
         robot_desc = f.read()
     path_to_base = os.path.join(
-        get_package_share_directory('kobuki_description'),
+        get_package_share_directory('kobuki_softnode'),
         'param',
         'base.yaml'
     )
     path_to_diagnostics = os.path.join(
-        get_package_share_directory('kobuki_description'),
+        get_package_share_directory('kobuki_softnode'),
         'param',
         'diagnostics.yaml'
     )
