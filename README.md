@@ -58,5 +58,5 @@ $ ros2 launch kobuki_softnode full.launch.py
 ```
 Terminal 2
 ```
-$ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
+$ ros2 topic pub --once /velocity geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
 ```

@@ -5,6 +5,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
+import yaml
+
 def generate_launch_description():
     path_to_urdf = os.path.join(
         get_package_share_directory('kobuki_description'),
@@ -18,11 +20,16 @@ def generate_launch_description():
         'param',
         'base.yaml'
     )
-    path_to_diagnostics = os.path.join(
-        get_package_share_directory('kobuki_softnode'),
-        'param',
-        'diagnostics.yaml'
-    )
+    with open(path_to_base, 'r') as f:
+        base_params = yaml.safe_load(f)
+    # path_to_diagnostics = os.path.join(
+    #     get_package_share_directory('kobuki_softnode'),
+    #     'param',
+    #     'diagnostics.yaml'
+    # )
+    # with open(path_to_diagnostics, 'r') as f:
+    #     diagnostics_params = yaml.safe_load(f)
+    #     print(diagnostics_params)
     rviz_config = os.path.join(
         get_package_share_directory('kobuki_description'),
         'rviz',
@@ -34,18 +41,18 @@ def generate_launch_description():
             package='kobuki_softnode',
             executable='kobuki_softnode',
             name='mobile_base',
-            parameters=[path_to_base],
+            parameters=[base_params],
             remappings=[
                 ('mobile_base/odom', 'odom'),
                 ('mobile_base/joint_states', 'joint_states'),
             ]
         ),
-        Node(
-            package='diagnostic_aggregator',
-            executable='aggregator_node',
-            name='diagnostic_aggregator',
-            parameters=[path_to_diagnostics]
-        ),
+        # Node(
+        #     package='diagnostic_aggregator',
+        #     executable='aggregator_node',
+        #     name='diagnostic_aggregator',
+        #     parameters=[path_to_diagnostics]
+        # ),
         Node(
             package='robot_state_publisher',
             name='robot_state_publisher',
