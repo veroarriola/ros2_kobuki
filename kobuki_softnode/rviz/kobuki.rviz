@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Grid1
         - /RobotModel1
         - /RobotModel1/Description Topic1
       Splitter Ratio: 0.5
@@ -47,7 +48,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: <Fixed Frame>
+      Reference Frame: odom
       Value: true
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
@@ -166,25 +167,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10.205671310424805
+      Distance: 18.533851623535156
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.05351153388619423
-        Y: 0.22770823538303375
-        Z: -0.05838331580162048
+        X: 0
+        Y: 0
+        Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6253973245620728
+      Pitch: 0.785398006439209
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.583581924438477
+      Yaw: 0.785398006439209
     Saved: ~
 Window Geometry:
   Displays:
@@ -202,5 +203,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 0
-  Y: 64
+  X: 60
+  Y: 60
