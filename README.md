@@ -56,7 +56,23 @@ $ ros2 launch kobuki_description view_model.py
 ```
 $ ros2 launch kobuki_softnode full.launch.py
 ```
-Terminal 2
+**Terminal 2**
 ```
 $ ros2 topic pub --once /velocity geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
 ```
+
+# Kobuki en Ignition Gazebo
+
+Gazebo trabaja independientemente de ROS 2.  Para indicarle dónde está el modelo se puede usar algo como:
+
+**Terminal 1**
+```
+$ export IGN_GAZEBO_RESOURCE_PATH="$HOME/<workspace>/src"
+$ ign gazebo empty.sdf
+```
+**Terminal 2**
+```
+$ ign service -s /world/empty/create --reqtype ignition.msgs.EntityFactory --reptype ignition.msgs.Boolean --timeout 300 --req 'sdf_filename:"kobuki_description/urdf/kobuki_standalone.urdf" name: "kobuki"'
+$ ign topic -t "/cmd_vel" -m ignition.msgs.Twist -p "linear: {x: 0.5}, angular: {z: 0.5}"
+```
+Esto importará a la kobuki dentro un mundo vacío y comenzará a avanzar girando a la izquierda.
