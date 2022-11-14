@@ -67,7 +67,7 @@ Gazebo trabaja independientemente de ROS 2.  Para indicarle dónde está el mode
 
 **Terminal 1**
 ```
-$ export IGN_GAZEBO_RESOURCE_PATH="$HOME/<workspace>/src"
+$ export IGN_GAZEBO_RESOURCE_PATH="$HOME/kobuki_ws/install/kobuki_description/share"
 $ ign gazebo empty.sdf
 ```
 **Terminal 2**
