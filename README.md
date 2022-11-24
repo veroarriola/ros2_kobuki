@@ -26,19 +26,26 @@ Dentro de un espacio de trabajo, clonar [kobuki_ros_interfaces](https://github.c
 
 **Terminal 0.1**
 
-Compilar con ```colcon build``` antes de clonar este repo.  Continuar en otra terminal.
+Compilar sólo las interfaces:
+
+```
+colcon build --packages-select kobuki_ros_interfaces
+```
 
 ## Instalar
 
-Clonar este repo de modo que los directorios queden dentro de ```src``` y compilar con ```colcon```.
+Clonar este repo dentro de ```src``` y compilar con ```colcon```.
 
 **Terminal 0.2**
 ```
 $ cd ~/kobuki_ws/src/
-$ git clone <repo> .
+$ git clone <repo>
 $ cd ..
+$ source install/setup.bash
 $ colcon build
 ```
+
+Con esto quederán compilados todos los paquetes.  Para usarlos hay que abrir nuevas terminales y hacer ```source install/setup.bash``` en cada una, como siempre.
 
 ## Ejecutar
 
@@ -56,6 +63,8 @@ $ ros2 launch kobuki_description view_model.py
 ```
 $ ros2 launch kobuki_softnode full.launch.py
 ```
+Si la Kobuki no se ve, hacer _click_ en _Add_ y seleccionar _RobotModel_. Aparecerá en el menú del panel izquierdo, expandir y en _Description Topic_ seleccionar ```/robot_description```.  Finalmente, en el mismo panel, en _Fixed Frame_ seleccionar ```odom```.
+
 **Terminal 2**
 ```
 $ ros2 topic pub --once /velocity geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"

@@ -1,0 +1,22 @@
+<package format="2">
+  <name>ros2_kobuki</name>
+  <version>1.0.0</version>
+  <description>
+    Adaptation for minimal installation of Kobuki softnode.
+  </description>
+  <author>Vero E. Arriola</author>
+  <maintainer email="v.arriola@ciencias.unam.mx">Vero E. Arriola</maintainer>
+  <license>BSD</license>
+  <url type="bugtracker">https://github.com/veroarriola/ros2_kobuki/issues</url>
+  <url type="repository">https://github.com/veroarriola/ros2_kobuki</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>kobuki_description</exec_depend>
+  <exec_depend>kobuki_ros_interfaces</exec_depend>
+  <exec_depend>kobuki_softnode</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

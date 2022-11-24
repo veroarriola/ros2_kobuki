@@ -13,11 +13,11 @@ find_package(ament_cmake REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(kobuki_ros_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(kobuki_ros_interfaces REQUIRED)
 
 include_directories(include)
 
@@ -36,67 +36,13 @@ endif()
 
 
 ##
-## fake_kobuki_component
-##
-# add_library(fake_kobuki_component SHARED
-#   src/fake_kobuki.cpp
-# )
-
-# target_compile_definitions(fake_kobuki_component
-#   PRIVATE "COMPOSITION_BUILDING_DLL"
-# )
-
-# ament_target_dependencies(fake_kobuki_component
-#   "rclcpp"
-#   "rclcpp_components"
-#   "std_msgs"
-# )
-
-# rclcpp_components_register_nodes(fake_kobuki_component
-#   "kobuki::FakeKobuki"
-# )
-
-# set(node_plugins "${node_plugins}kobuki::FakeKobuki;$<TARGET_FILE:fake_kobuki>\n")
-
-
-##
-## fake_kobuki_ros_component
-##
-# add_library(fake_kobuki_ros_component SHARED
-#   src/fake_kobuki_ros.cpp
-# )
-
-# target_compile_definitions(fake_kobuki_ros_component
-#   PRIVATE "COMPOSITION_BUILDING_DLL"
-# )
-
-# ament_target_dependencies(fake_kobuki_ros_component
-#   "rclcpp"
-#   "rclcpp_components"
-#   "std_msgs"
-# )
-
-# rclcpp_components_register_nodes(fake_kobuki_ros_component
-#   "kobuki::FakeKobuki"
-# )
-
-# set(node_plugins "${node_plugins}kobuki::FakeKobukiRos;$<TARGET_FILE:fake_kobuki_ros>\n")
-
-
-##
 ## kobuki_softnode
 ##
 
 add_executable(kobuki_softnode
-  #src/mobile_base_composition.cpp
   src/fake_kobuki.cpp
   src/fake_kobuki_ros.cpp
 )
-
-# target_link_libraries(kobuki_softnode
-#   fake_kobuki_component
-#   fake_kobuki_ros_component
-# )
 
 ament_target_dependencies(kobuki_softnode
   "rclcpp"
@@ -110,13 +56,6 @@ ament_target_dependencies(kobuki_softnode
 )
 
 
-# install(TARGETS
-#   fake_kobuki_component
-#   fake_kobuki_ros_component
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin
-# )
 install(TARGETS
   kobuki_softnode
   DESTINATION lib/${PROJECT_NAME}
