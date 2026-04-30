@@ -31,7 +31,7 @@ def generate_launch_description():
     #     diagnostics_params = yaml.safe_load(f)
     #     print(diagnostics_params)
     rviz_config = os.path.join(
-        get_package_share_directory('kobuki_description'),
+        get_package_share_directory('kobuki_softnode'),
         'rviz',
         'kobuki.rviz'
     )
